@@ -38,6 +38,7 @@ from .const import (
     DEFAULT_LOGO,
     DEFAULT_TIMEOUT,
     DOMAIN,
+    HOCKEYTECH_LEAGUES,
     ISSUE_URL,
     LEAGUE_MAP,
     PLATFORMS,
@@ -50,6 +51,7 @@ from .const import (
     VERSION,
 )
 from .event import async_process_event
+from .hockeytech import async_fetch_hockeytech_scoreboard
 from .utils import is_integer, async_call_espn_api2, async_get_value
 
 _LOGGER = logging.getLogger(__name__)
@@ -586,7 +588,7 @@ class TeamTrackerDataUpdateCoordinator(DataUpdateCoordinator):
                 data = json.loads(contents)
             except Exception as e: # pylint: disable=broad-exception-caught
                 _LOGGER.debug("%s: API file read failed: %s", sensor_name, e)
-                data = None                
+                data = None
         else:
             session = async_get_clientsession(self.hass)
             try:
@@ -602,7 +604,7 @@ class TeamTrackerDataUpdateCoordinator(DataUpdateCoordinator):
             except Exception as e: # pylint: disable=broad-exception-caught
                 _LOGGER.debug("%s: API call failed: %s", sensor_name, e)
                 data = None
-            
+
         return data
 
 
@@ -617,6 +619,18 @@ class TeamTrackerDataUpdateCoordinator(DataUpdateCoordinator):
 
         data = None
         file_override = False
+
+        # Route to HockeyTech API for supported leagues (e.g., PWHL)
+        league_id_upper = self.league_id.upper()
+        if league_id_upper in HOCKEYTECH_LEAGUES:
+            session = await self._get_session()
+            data = await async_fetch_hockeytech_scoreboard(
+                session=session,
+                league_id=league_id_upper,
+                sensor_name=self.name,
+            )
+            self.api_url = f"{HOCKEYTECH_LEAGUES[league_id_upper]['client_code']}.hockeytech.com/scorebar"
+            return data, file_override
 
         sport_path = self.sport_path
         league_path = self.league_path
@@ -817,5 +831,5 @@ class TeamTrackerDataUpdateCoordinator(DataUpdateCoordinator):
             if team_data:
                 values["team_id"] = team_id
                 values["team_abbr"] = await async_get_value(team_data, "team", "abbreviation", default=team_id)
-        
+
         return values
