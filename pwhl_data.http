@@ -4,12 +4,12 @@ GET https://lscluster.hockeytech.com/feed/index.php?feed=modulekit&view=scorebar
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 11_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15
 
 ### PWHL Team Roster
-# Replace {{team_id}} with the numeric team ID (e.g., 3 for Montreal).
+# Replace {{team_id}} with the numeric team ID (e.g., 3 for Montreal/MTL).
 GET https://lscluster.hockeytech.com/feed/index.php?feed=modulekit&view=roster&key=446521baf8c38984&client_code=pwhl&lang=en&fmt=json&team_id=3
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 11_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15
 
 ### PWHL Team Information
-# Replace {{team_id}} with the numeric team ID.
+# Replace {{team_id}} with the numeric team ID (e.g., 3 for Montreal/MTL).
 GET https://lscluster.hockeytech.com/feed/index.php?feed=modulekit&view=team_info&key=446521baf8c38984&client_code=pwhl&lang=en&fmt=json&team_id=3
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 11_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15
 

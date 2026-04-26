@@ -628,7 +628,6 @@ class TeamTrackerDataUpdateCoordinator(DataUpdateCoordinator):
                 session=session,
                 league_id=league_id_upper,
                 sensor_name=self.name,
-                team_id=self.team_id.upper(),
             )
             self.api_url = f"{HOCKEYTECH_LEAGUES[league_id_upper]['client_code']}.hockeytech.com/scorebar"
             return data, file_override
