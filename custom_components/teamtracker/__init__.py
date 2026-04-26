@@ -822,7 +822,11 @@ class TeamTrackerDataUpdateCoordinator(DataUpdateCoordinator):
             lang,
         )
 
-        if (values["state"] == "NOT_FOUND" and is_integer(team_id)):
+        if (
+            values["state"] == "NOT_FOUND"
+            and is_integer(team_id)
+            and league_id not in HOCKEYTECH_LEAGUES
+        ):
             url = (
                 f"https://site.api.espn.com/apis/site/v2/sports"
                 f"/{self.sport_path}/{self.league_path}/teams/{team_id}"
