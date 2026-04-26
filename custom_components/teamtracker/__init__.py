@@ -623,11 +623,12 @@ class TeamTrackerDataUpdateCoordinator(DataUpdateCoordinator):
         # Route to HockeyTech API for supported leagues (e.g., PWHL)
         league_id_upper = self.league_id.upper()
         if league_id_upper in HOCKEYTECH_LEAGUES:
-            session = await self._get_session()
+            session = async_get_clientsession(self.hass)
             data = await async_fetch_hockeytech_scoreboard(
                 session=session,
                 league_id=league_id_upper,
                 sensor_name=self.name,
+                team_id=self.team_id.upper(),
             )
             self.api_url = f"{HOCKEYTECH_LEAGUES[league_id_upper]['client_code']}.hockeytech.com/scorebar"
             return data, file_override

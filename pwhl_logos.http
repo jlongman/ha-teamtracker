@@ -1,0 +1,27 @@
+### PWHL League Logo
+GET https://assets.leaguestat.com/pwhl/logos/pwhl.png
+
+### PWHL Team Logos (50x50)
+# Boston (ID: 1)
+GET https://assets.leaguestat.com/pwhl/logos/50x50/1.png
+
+# Minnesota (ID: 2)
+GET https://assets.leaguestat.com/pwhl/logos/50x50/2.png
+
+# Montreal (ID: 3)
+GET https://assets.leaguestat.com/pwhl/logos/50x50/3.png
+
+# New York (ID: 4)
+GET https://assets.leaguestat.com/pwhl/logos/50x50/4.png
+
+# Ottawa (ID: 5)
+GET https://assets.leaguestat.com/pwhl/logos/50x50/5.png
+
+# Toronto (ID: 6)
+GET https://assets.leaguestat.com/pwhl/logos/50x50/6.png
+
+# Seattle (ID: 8)
+GET https://assets.leaguestat.com/pwhl/logos/50x50/8.png
+
+# Vancouver (ID: 9)
+GET https://assets.leaguestat.com/pwhl/logos/50x50/9.png

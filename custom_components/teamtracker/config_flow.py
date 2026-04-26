@@ -52,6 +52,7 @@ _SPORT_GROUPS: dict[str, tuple[str, dict[str, str]]] = {
     }),
     "hockey": ("Hockey", {
         "NHL": "NHL",
+        "PWHL": "PWHL"
     }),
     "mma": ("MMA", {
         "UFC": "UFC",

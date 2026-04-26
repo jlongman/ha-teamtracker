@@ -28,6 +28,7 @@ async def async_fetch_hockeytech_scoreboard(
     session: aiohttp.ClientSession,
     league_id: str,
     sensor_name: str,
+    team_id: str,
 ) -> dict | None:
     """Fetch scoreboard from HockeyTech API and return ESPN-compatible dict."""
 
@@ -83,10 +84,10 @@ async def async_fetch_hockeytech_scoreboard(
         _LOGGER.warning("%s: Failed to parse HockeyTech response: %s", sensor_name, e)
         return None
 
-    return _transform_hockeytech_to_espn(ht_data, league_id)
+    return _transform_hockeytech_to_espn(ht_data, league_id, team_id)
 
 
-def _transform_hockeytech_to_espn(ht_data: dict, league_id: str) -> dict:
+def _transform_hockeytech_to_espn(ht_data: dict, league_id: str, team_id: str) -> dict:
     """Transform HockeyTech scorebar data into ESPN-compatible format."""
 
     league_config = HOCKEYTECH_LEAGUES.get(league_id, {})
@@ -96,6 +97,7 @@ def _transform_hockeytech_to_espn(ht_data: dict, league_id: str) -> dict:
         "leagues": [
             {
                 "id": league_config.get("client_code", league_id.lower()),
+                "name": league_id,
                 "abbreviation": league_id,
                 "logos": [{"href": league_config.get("league_logo", "")}],
             }
@@ -108,9 +110,16 @@ def _transform_hockeytech_to_espn(ht_data: dict, league_id: str) -> dict:
         return espn_data
 
     for game in scorebar:
-        event = _build_espn_event(game, team_colors)
-        if event is not None:
-            espn_data["events"].append(event)
+        if (
+            team_id == "*"
+            or game.get("HomeCode", "").upper() == team_id
+            or game.get("VisitorCode", "").upper() == team_id
+            or game.get("HomeID", "") == team_id
+            or game.get("VisitorID", "") == team_id
+        ):
+            event = _build_espn_event(game, team_colors)
+            if event is not None:
+                espn_data["events"].append(event)
 
     return espn_data
 
